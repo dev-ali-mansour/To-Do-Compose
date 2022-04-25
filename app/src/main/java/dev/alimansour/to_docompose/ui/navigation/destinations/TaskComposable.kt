@@ -1,6 +1,7 @@
 package dev.alimansour.to_docompose.ui.navigation.destinations
 
 import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavGraphBuilder
@@ -10,8 +11,6 @@ import androidx.navigation.navArgument
 import dev.alimansour.to_docompose.ui.screen.task.TaskScreen
 import dev.alimansour.to_docompose.ui.viewmodels.SharedViewModel
 import dev.alimansour.to_docompose.util.Action
-import dev.alimansour.to_docompose.util.Constants.LIST_ARGUMENT_KEY
-import dev.alimansour.to_docompose.util.Constants.LIST_SCREEN
 import dev.alimansour.to_docompose.util.Constants.TASK_ARGUMENT_KEY
 import dev.alimansour.to_docompose.util.Constants.TASK_SCREEN
 
@@ -28,8 +27,16 @@ fun NavGraphBuilder.taskComposable(
         val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARGUMENT_KEY)
         sharedViewModel.getSelectedTask(taskId = taskId)
         val selectedTask by sharedViewModel.selectedTask.collectAsState()
+
+        LaunchedEffect(key1 = selectedTask) {
+            if (selectedTask != null || taskId == -1) {
+                sharedViewModel.updateTaskFields(selectedTask = selectedTask)
+            }
+        }
+
         TaskScreen(
             selectedTask = selectedTask,
+            sharedViewModel = sharedViewModel,
             navigateToListScreen = navigateToListScreen
         )
     }

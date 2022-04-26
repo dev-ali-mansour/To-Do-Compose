@@ -1,5 +1,6 @@
 package dev.alimansour.to_docompose.ui.screen.list
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

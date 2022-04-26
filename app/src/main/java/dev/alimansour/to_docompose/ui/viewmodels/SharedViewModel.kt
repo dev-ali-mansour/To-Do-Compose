@@ -7,20 +7,22 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.alimansour.to_docompose.data.model.Priority
 import dev.alimansour.to_docompose.data.model.ToDoTask
+import dev.alimansour.to_docompose.data.repositories.DataStoreRepository
 import dev.alimansour.to_docompose.data.repositories.ToDoRepository
 import dev.alimansour.to_docompose.util.Action
 import dev.alimansour.to_docompose.util.Constants.MAX_TITLE_LENGTH
 import dev.alimansour.to_docompose.util.RequestState
 import dev.alimansour.to_docompose.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SharedViewModel @Inject constructor(private val repository: ToDoRepository) :
+class SharedViewModel @Inject constructor(
+    private val repository: ToDoRepository,
+    private val dataStoreRepository: DataStoreRepository
+) :
     ViewModel() {
 
     val searchAppBarState: MutableState<SearchAppBarState> =
@@ -42,6 +44,42 @@ class SharedViewModel @Inject constructor(private val repository: ToDoRepository
 
     private val _selectedTask = MutableStateFlow<ToDoTask?>(null)
     val selectedTask: StateFlow<ToDoTask?> = _selectedTask
+
+    private val _sortState = MutableStateFlow<RequestState<Priority>>(RequestState.Idle)
+    val sortState: StateFlow<RequestState<Priority>> = _sortState
+
+    val lowPriorityTasks: StateFlow<List<ToDoTask>> = repository.sortByLowPriority.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        emptyList()
+    )
+
+    val highPriorityTasks: StateFlow<List<ToDoTask>> = repository.sortByHighPriority.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        emptyList()
+    )
+
+    fun readSortState() {
+        _sortState.value = RequestState.Loading
+        runCatching {
+            viewModelScope.launch {
+                dataStoreRepository.readSortState
+                    .map { Priority.valueOf(it) }
+                    .collect {
+                        _sortState.value = RequestState.Success(it)
+                    }
+            }
+        }.onFailure { t ->
+            _sortState.value = RequestState.Error(t)
+        }
+    }
+
+    fun persistSortingState(priority: Priority) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.persistSortState(priority = priority)
+        }
+    }
 
     fun getAllTasks() {
         _allTasks.value = RequestState.Loading

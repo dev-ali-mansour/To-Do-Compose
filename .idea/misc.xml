@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Developing/Projects/Android/To-DoCompose/app/src/main/res/drawable/ic_filter_list.xml" value="0.134" />
-        <entry key="..\:/Developing/Projects/Android/To-DoCompose/app/src/main/res/drawable/ic_sad_face.xml" value="0.134" />
+        <entry key="..\:/Developing/Projects/Android/Training/JetpackCompose/ToDoCompose/app/src/main/res/drawable/ic_logo_dark.xml" value="0.1" />
+        <entry key="..\:/Developing/Projects/Android/Training/JetpackCompose/ToDoCompose/app/src/main/res/drawable/ic_logo_light.xml" value="0.174" />
       </map>
     </option>
   </component>

@@ -13,6 +13,7 @@ import dev.alimansour.to_docompose.util.Action
 import dev.alimansour.to_docompose.util.SearchAppBarState
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
@@ -63,6 +64,10 @@ fun ListScreen(
             highPriorityTasks = highPriorityTasks,
             sortState = sortState,
             searchAppBarState = searchAppBarState,
+            onSwipeToDelete = { action, task ->
+                sharedViewModel.action.value = action
+                sharedViewModel.updateTaskFields(selectedTask = task)
+            },
             navigateToTaskScreen = navigateToTaskScreen
         )
     }

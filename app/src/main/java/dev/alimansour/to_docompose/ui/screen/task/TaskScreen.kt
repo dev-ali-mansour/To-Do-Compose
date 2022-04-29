@@ -2,6 +2,7 @@ package dev.alimansour.to_docompose.ui.screen.task
 
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -10,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import dev.alimansour.to_docompose.data.model.Priority
 import dev.alimansour.to_docompose.data.model.ToDoTask
-import dev.alimansour.to_docompose.ui.navigation.BackHandler
 import dev.alimansour.to_docompose.ui.viewmodels.SharedViewModel
 import dev.alimansour.to_docompose.util.Action
 
@@ -26,7 +26,9 @@ fun TaskScreen(
 
     val context = LocalContext.current
 
-    BackHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
+    BackHandler {
+        navigateToListScreen(Action.NO_ACTION)
+    }
 
     Scaffold(
         topBar = {

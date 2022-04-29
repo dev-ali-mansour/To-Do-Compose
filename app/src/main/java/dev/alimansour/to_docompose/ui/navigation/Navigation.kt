@@ -40,27 +40,3 @@ fun SetupNavigation(
         )
     }
 }
-
-@Composable
-fun BackHandler(
-    backDispatcher: OnBackPressedDispatcher? =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Log.d("BackHandler","Handler triggered")
-                currentOnBackPressed()
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backDispatcher) {
-        backDispatcher?.addCallback(backCallback)
-        onDispose {
-            backCallback.remove()
-        }
-    }
-}

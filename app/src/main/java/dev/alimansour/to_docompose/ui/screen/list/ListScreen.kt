@@ -1,7 +1,6 @@
 package dev.alimansour.to_docompose.ui.screen.list
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -24,11 +23,6 @@ fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel
 ) {
-    LaunchedEffect(key1 = true) {
-        sharedViewModel.getAllTasks()
-        sharedViewModel.readSortState()
-    }
-
     LaunchedEffect(key1 = action) {
         sharedViewModel.handleDatabaseActions(action = action)
     }

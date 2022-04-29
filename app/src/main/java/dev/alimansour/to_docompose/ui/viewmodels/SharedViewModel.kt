@@ -1,5 +1,6 @@
 package dev.alimansour.to_docompose.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -60,7 +61,12 @@ class SharedViewModel @Inject constructor(
         emptyList()
     )
 
-    fun readSortState() {
+    init {
+        getAllTasks()
+        readSortState()
+    }
+
+    private fun readSortState() {
         _sortState.value = RequestState.Loading
         runCatching {
             viewModelScope.launch {
@@ -81,7 +87,8 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun getAllTasks() {
+    private fun getAllTasks() {
+        Log.d(Object().`class`.enclosingMethod?.name,"triggered")
         _allTasks.value = RequestState.Loading
         runCatching {
             viewModelScope.launch {

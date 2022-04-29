@@ -2,14 +2,12 @@ package dev.alimansour.to_docompose.ui.screen.task
 
 import android.content.Context
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import dev.alimansour.to_docompose.data.model.Priority
 import dev.alimansour.to_docompose.data.model.ToDoTask
+import dev.alimansour.to_docompose.ui.navigation.BackHandler
 import dev.alimansour.to_docompose.ui.viewmodels.SharedViewModel
 import dev.alimansour.to_docompose.util.Action
 
@@ -64,27 +62,4 @@ fun TaskScreen(
 
 fun displayToast(context: Context) {
     Toast.makeText(context, "Fields Empty", Toast.LENGTH_SHORT).show()
-}
-
-@Composable
-fun BackHandler(
-    backDispatcher: OnBackPressedDispatcher? =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                currentOnBackPressed()
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backDispatcher) {
-        backDispatcher?.addCallback(backCallback)
-        onDispose {
-            backCallback.remove()
-        }
-    }
 }

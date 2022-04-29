@@ -2,8 +2,11 @@ package dev.alimansour.to_docompose.ui.screen.task
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import dev.alimansour.to_docompose.data.model.Priority
 import dev.alimansour.to_docompose.data.model.ToDoTask
@@ -42,21 +45,22 @@ fun TaskScreen(
                 }
             )
         }) { paddingValues ->
-        TaskContent(
-            paddingValues = paddingValues,
-            title = title,
-            onTitleChange = {
-                sharedViewModel.updateTitle(it)
-            },
-            description = description,
-            onDescriptionChange = {
-                sharedViewModel.description.value = it
-            },
-            priority = priority,
-            onPrioritySelected = {
-                sharedViewModel.priority.value = it
-            }
-        )
+        Box(modifier = Modifier.padding(paddingValues = paddingValues)) {
+            TaskContent(
+                title = title,
+                onTitleChange = {
+                    sharedViewModel.updateTitle(it)
+                },
+                description = description,
+                onDescriptionChange = {
+                    sharedViewModel.description.value = it
+                },
+                priority = priority,
+                onPrioritySelected = {
+                    sharedViewModel.priority.value = it
+                }
+            )
+        }
     }
 }
 

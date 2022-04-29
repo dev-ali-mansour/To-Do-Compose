@@ -1,7 +1,6 @@
 package dev.alimansour.to_docompose.ui.screen.task
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -40,8 +39,9 @@ fun TaskScreen(
                     }
                 }
             )
-        }) {
+        }) { paddingValues ->
         TaskContent(
+            paddingValues = paddingValues,
             title = title,
             onTitleChange = {
                 sharedViewModel.updateTitle(it)

@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import dev.alimansour.to_docompose.R
 import dev.alimansour.to_docompose.data.model.Priority
 import dev.alimansour.to_docompose.ui.component.PriorityDropDown
@@ -18,6 +20,7 @@ import dev.alimansour.to_docompose.ui.theme.MEDIUM_PADDING
 
 @Composable
 fun TaskContent(
+    paddingValues: PaddingValues,
     title: String,
     onTitleChange: (String) -> Unit,
     description: String,
@@ -29,7 +32,10 @@ fun TaskContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
-            .padding(LARGE_PADDING)
+            .padding(
+                horizontal = LARGE_PADDING,
+                vertical = paddingValues.calculateBottomPadding() + LARGE_PADDING
+            )
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -61,6 +67,7 @@ fun TaskContent(
 @Composable
 fun TaskContentPreview() {
     TaskContent(
+        paddingValues = PaddingValues(0.dp),
         title = "",
         onTitleChange = {},
         description = "",

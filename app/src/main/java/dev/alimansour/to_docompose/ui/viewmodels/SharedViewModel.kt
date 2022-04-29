@@ -1,6 +1,5 @@
 package dev.alimansour.to_docompose.ui.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,6 @@ import dev.alimansour.to_docompose.util.Constants.MAX_TITLE_LENGTH
 import dev.alimansour.to_docompose.util.RequestState
 import dev.alimansour.to_docompose.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -189,6 +187,5 @@ class SharedViewModel @Inject constructor(
             Action.UNDO -> addTask()
             else -> {}
         }
-        this.action.value = Action.NO_ACTION
     }
 }
